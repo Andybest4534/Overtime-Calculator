@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(145deg, #f0f4f8, #e0ebf7);
+      background: linear-gradient(to right, #e6f0fa, #ffffff);
       margin: 0;
       padding: 0;
       color: #333;
@@ -16,46 +16,50 @@
     header {
       background: #1d3557;
       color: white;
-      padding: 20px;
+      padding: 25px 15px;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.5em;
+      font-size: 1.8em;
       letter-spacing: 0.5px;
     }
 
     header p {
-      margin-top: 5px;
-      font-size: 0.9em;
+      margin-top: 6px;
+      font-size: 0.95em;
       font-style: italic;
     }
 
     .container {
-      max-width: 450px;
+      max-width: 480px;
       background: white;
-      margin: 30px auto;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      transition: all 0.3s ease-in-out;
+      margin: 40px auto;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
     }
 
-    label, input, select, button {
-      width: 100%;
-      margin-top: 15px;
-      font-size: 1rem;
+    label {
+      display: block;
+      margin-bottom: 6px;
+      margin-top: 20px;
+      font-weight: 500;
     }
 
     input, select {
+      width: 100%;
       padding: 10px;
-      border-radius: 5px;
+      border-radius: 6px;
       border: 1px solid #ccc;
+      font-size: 1rem;
     }
 
     button {
+      width: 100%;
+      margin-top: 25px;
       background: #457b9d;
       color: white;
       border: none;
@@ -63,7 +67,6 @@
       border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 20px;
       transition: background 0.3s ease;
     }
 
@@ -71,56 +74,63 @@
       background: #2a6aa0;
     }
 
-    .result, .history {
-      background: #f9fafc;
-      border: 1px solid #dfe6ee;
-      border-radius: 8px;
-      padding: 15px;
-      margin-top: 25px;
-      animation: fadeIn 0.6s ease;
+    .result {
+      display: none;
+      background: #f1f9ff;
+      border: 1px solid #cde2f2;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 30px;
+      font-size: 1rem;
+      animation: fadeZoom 0.5s ease;
+    }
+
+    .history {
+      display: none;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 30px;
     }
 
     .history-entry {
-      margin-bottom: 12px;
-      border-bottom: 1px dashed #ccc;
-      padding-bottom: 8px;
+      background: #fff;
+      border: 1px solid #d0d0d0;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.03);
     }
 
     footer {
-      background: #f1f5f8;
-      padding: 20px;
-      font-size: 0.85em;
+      background: #f5f8fa;
       text-align: center;
-      color: #555;
+      font-size: 0.85em;
+      padding: 20px;
+      color: #666;
     }
 
-    .services {
-      margin-top: 10px;
-      font-size: 0.95em;
-      line-height: 1.6;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeZoom {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
-
-<header>
+  <header>
   <h1>Overtime Calculator</h1>
   <p>Powered by AndyGadgetsCare — Tech at Your Fingertips</p>
 </header>
 
 <div class="container">
-  <label>Days Worked:</label>
+  <label for="daysWorked">Days Worked:</label>
   <input type="number" id="daysWorked" placeholder="e.g. 22" />
 
-  <label>Basic Salary:</label>
+  <label for="basicSalary">Basic Salary (₦):</label>
   <input type="number" id="basicSalary" placeholder="e.g. 50000" />
 
-  <label>Company Hours Type:</label>
+  <label for="companyHoursMode">Company Hours Type:</label>
   <select id="companyHoursMode">
     <option value="fixed">Fixed (176)</option>
     <option value="dynamic">Dynamic (8 × Days Worked)</option>
@@ -129,94 +139,102 @@
   <button onclick="calculateOT()">Calculate</button>
   <button onclick="exportHistory()">Export History</button>
 
-  <div class="result" id="output" style="display:none;"></div>
-  <div class="history" id="history" style="display:none;">
+  <div class="result" id="output"></div>
+
+  <div class="history" id="history">
     <h3>Calculation History</h3>
     <div id="historyList"></div>
   </div>
 </div>
 
 <footer>
-  <strong>AndyGadgetsCare</strong> — Software Solutions & Technical Services<br>
-  <div class="services">
-    💻 Laptop & Phone Sales<br>
-    🛠 Repairs & Troubleshooting<br>
-    🎨 Graphics Design<br>
-    📦 Accessories & Gadgets<br>
-    📱 WhatsApp: +234 906 521 3803
+  <strong>AndyGadgetsCare</strong> — Software Solutions & Technical Services<br/>
+  💻 Laptop & Phone Sales • 🎨 Graphics Design • 🛠 Troubleshooting & Accessories<br/>
+  📱 WhatsApp: +234 906 521 3803
+  <div style="margin-top:10px; font-size: 0.85em; color: #777;">
+    © 2025 AndyGadgetsCare · Licensed under MIT
   </div>
 </footer>
+  <script>
+  let historyData = [];
 
-<script>
-let historyData = [];
-
-function calculateOT() {
-  const daysWorked = parseFloat(document.getElementById("daysWorked").value);
-  const basicSalary = parseFloat(document.getElementById("basicSalary").value);
-  const mode = document.getElementById("companyHoursMode").value;
-
-  if (isNaN(daysWorked) || isNaN(basicSalary)) {
-    alert("Please enter valid numbers.");
-    return;
-  }
-
-  const otHours = (12 - 8) * daysWorked;
-  const companyHours = mode === "fixed" ? 176 : 8 * daysWorked;
-  const otPayment = (1.5 * otHours * basicSalary) / companyHours;
-
-  const result = {
-    date: new Date().toLocaleString(),
-    otHours: otHours.toFixed(2),
-    companyHours: companyHours,
-    otPayment: otPayment.toFixed(2)
-  };
-
-  historyData.push(result);
-  updateOutput(result);
-  updateHistory();
-}
-
-function updateOutput(result) {
-  const out = document.getElementById("output");
-  out.style.display = "block";
-  out.innerHTML = `
-    <strong>OT Hours:</strong> ${result.otHours} hrs<br/>
-    <strong>Company Hours Used:</strong> ${result.companyHours} hrs<br/>
-    <strong>OT Payment:</strong> ₦${result.otPayment}
-  `;
-}
-
-function updateHistory() {
-  const container = document.getElementById("historyList");
-  container.innerHTML = "";
-  historyData.forEach((entry, i) => {
-    container.innerHTML += `
-      <div class="history-entry">
-        <strong>#${i + 1}</strong> (${entry.date})<br/>
-        OT: ${entry.otHours} hrs | Company Hrs: ${entry.companyHours} | OT Pay: ₦${entry.otPayment}
-      </div>
-    `;
+  const naira = new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 2
   });
-  document.getElementById("history").style.display = "block";
-}
 
-function exportHistory() {
-  if (historyData.length === 0) {
-    alert("No history to export.");
-    return;
+  function formatNaira(amount) {
+    return naira.format(amount);
   }
-  const content = historyData.map((entry, i) => 
-    `#${i + 1} – ${entry.date}\nOT: ${entry.otHours} hrs\nCompany Hrs: ${entry.companyHours}\nOT Pay: ₦${entry.otPayment}\n`
-  ).join('\n');
 
-  const blob = new Blob([content], { type: 'text/plain' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.download = "OT_History.txt";
-  link.href = url;
-  link.click();
-}
+  function calculateOT() {
+    const daysWorked = parseFloat(document.getElementById("daysWorked").value);
+    const basicSalary = parseFloat(document.getElementById("basicSalary").value);
+    const mode = document.getElementById("companyHoursMode").value;
+
+    if (isNaN(daysWorked) || isNaN(basicSalary)) {
+      alert("Please enter valid numbers for both fields.");
+      return;
+    }
+
+    const otHours = (12 - 8) * daysWorked;
+    const companyHours = mode === "fixed" ? 176 : 8 * daysWorked;
+    const otPayment = (1.5 * otHours * basicSalary) / companyHours;
+
+    const result = {
+      date: new Date().toLocaleString(),
+      otHours: otHours.toFixed(2),
+      companyHours: companyHours,
+      otPayment: otPayment
+    };
+
+    historyData.push(result);
+    updateOutput(result);
+    updateHistory();
+  }
+
+  function updateOutput(result) {
+    const out = document.getElementById("output");
+    out.style.display = "block";
+    out.innerHTML = `
+      <strong>OT Hours:</strong> ${result.otHours} hrs<br/>
+      <strong>Company Hours Used:</strong> ${result.companyHours} hrs<br/>
+      <strong>OT Payment:</strong> <span style="font-weight:bold; color:#116;">${formatNaira(result.otPayment)}</span>
+    `;
+  }
+
+  function updateHistory() {
+    const container = document.getElementById("historyList");
+    container.innerHTML = "";
+    historyData.forEach((entry, i) => {
+      container.innerHTML += `
+        <div class="history-entry">
+          <strong>#${i + 1}</strong> (${entry.date})<br/>
+          OT: ${entry.otHours} hrs · Company Hrs: ${entry.companyHours} hrs<br/>
+          OT Pay: ${formatNaira(entry.otPayment)}
+        </div>
+      `;
+    });
+    document.getElementById("history").style.display = "block";
+  }
+
+  function exportHistory() {
+    if (historyData.length === 0) {
+      alert("No history to export.");
+      return;
+    }
+    const content = historyData.map((entry, i) => 
+      `#${i + 1} – ${entry.date}\nOT: ${entry.otHours} hrs\nCompany Hrs: ${entry.companyHours}\nOT Pay: ${formatNaira(entry.otPayment)}\n`
+    ).join('\n');
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.download = "OT_History.txt";
+    link.href = url;
+    link.click();
+  }
 </script>
-
 </body>
 </html>
